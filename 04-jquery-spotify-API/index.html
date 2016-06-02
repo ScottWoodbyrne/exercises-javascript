@@ -8,17 +8,28 @@
 <style >
 	fieldset{
 		width: 100%;
-
 	}
+	section {
+		background-color: lightblue;
+		border: solid 1px black;
+		border-radius: 5px;
+		padding: 10px;
+		margin: 10px;
 	}
 	#songs{
 		float: right;
+		background-color: lightblue;
+		border: solid 1px black;
+		border-radius: 5px;
+		padding: 10px;
+		margin: 10px;
+	}
 </style>
 <body>	
 
 	<div class="row">
-	<div class="col-xs-4">
-
+	<div class="col-xs-8">
+	<section>
 	<form>
 	
 		<fieldset id="search">
@@ -46,17 +57,20 @@
 		</fieldset>
 	
 	</form>
-
+	</section>
 	</div>
-
-	<div class="col-xs-4">
-		<div id="songs">
+	
+	
+		<div id="songs" class="col-xs-8">
+		<form>
 			<legend>Select a song for demo play</legend>
-			<ul >
-				
+			<ul >	
+				<p>your song selection will appear here!!</p>
 			</ul>
+		</form>
 		</div>
-</div>
+	
+
 </div>
 
 
