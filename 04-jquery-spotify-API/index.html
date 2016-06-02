@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Form Spotify</title>
+</head>
+<body>
+
+	<form>
+
+		<fieldset id="search">
+
+			<legend>Search</legend>
+
+			<input type="text">
+			<button>Click me!!</button>
+
+		</fieldset>
+
+		<fieldset id="artists">
+
+			<legend>Select an artist</legend>
+
+			<select></select>
+			<button>Click me!!</button>
+
+		</fieldset>
+
+		<fieldset id="albums">
+
+			<legend>Select an Album</legend>
+
+			<select></select>
+			<button>Click me!!</button>
+
+		</fieldset>
+
+		<div id="songs">
+			<legend>Select an Album</legend>
+			<ul>
+				
+			</ul>
+		</div>
+
+
+	</form>
+
+	<script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script>
+
+		$("#search button").on("click", function( eventObject ) {
+			
+			eventObject.preventDefault();
+
+			var searchArtist = $("#search input").val();
+			var urlSpotifyArtists = "https://api.spotify.com/v1/search?type=artist&query=" + searchArtist;
+
+			$.ajax({
+				url: urlSpotifyArtists
+			})
+			.success( function (data) {
+				var artistsFound = data.artists.items;
+				var optionsHtml = ""
+				$.each (artistsFound, function( itemPosition, itemContent) {
+					optionsHtml += '<option value="' + itemContent.id + '">' + itemContent.name + '</option>';
+				});
+
+				$("#artists select").html( optionsHtml );
+			});
+		});
+
+
+		 $("#artists select").on("change", function(eventObject) {
+		 	
+		 	eventObject.preventDefault();
+
+	 		var idArtist = $(this).val();	
+	 		var urlSpotifyArtistsId = 'https://api.spotify.com/v1/artists/'+idArtist+"/albums";
+
+			$.ajax({
+	 			url: urlSpotifyArtistsId
+			})
+			.success( function (data) {
+				var albums = data.items;
+				var albumsHtml = ""
+				$.each(albums, function (itemPosition, itemContent){
+					albumsHtml += '<option value="' + itemContent.id + '">' + itemContent.name + '</option>';
+				});
+			$("#albums select").html( albumsHtml );
+
+				})
+		 	});
+
+
+ 		$("#albums select").on("change", function(eventObject) {
+		 	
+			eventObject.preventDefault();
+
+	  		var idAlbum = $(this).val();	
+ 			var urlSpotifyAlbumsId = 'https://api.spotify.com/v1/albums/'+idAlbum+"/tracks";
+
+	 		$.ajax({
+	 			url: urlSpotifyAlbumsId
+			})
+	 		.success( function (data) {
+	 			console.log(data)
+	// 			console.log(data.items)
+	// 			var albums = data.items;
+	// 			var albumsHtml = ""
+	// 			$.each(albums, function (itemPosition, itemContent){
+	// 				albumsHtml += '<option value="' + itemContent.id + '">' + itemContent.name + '</option>';
+	// 			});
+	// 		$("#albums select").html( albumsHtml );
+
+	 			})
+	 	 	});
+
+	</script>
+</body>
+</html>
