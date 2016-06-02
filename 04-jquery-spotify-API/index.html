@@ -3,50 +3,68 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Form Spotify</title>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
-<body>
+<style >
+	fieldset{
+		width: 100%;
+
+	}
+	}
+	#songs{
+		float: right;
+</style>
+<body>	
+
+	<div class="row">
+	<div class="col-xs-4">
 
 	<form>
-
+	
 		<fieldset id="search">
 
-			<legend>Search</legend>
+			<legend>Search for an Artist</legend>
 
 			<input type="text">
 			<button>Click me!!</button>
 
 		</fieldset>
-
+	
 		<fieldset id="artists">
 
 			<legend>Select an artist</legend>
 
 			<select></select>
-			<button>Click me!!</button>
 
 		</fieldset>
-
+	
 		<fieldset id="albums">
 
 			<legend>Select an Album</legend>
 
 			<select></select>
-			<button>Click me!!</button>
-
 		</fieldset>
+	
+	</form>
 
+	</div>
+
+	<div class="col-xs-4">
 		<div id="songs">
-			<legend>Select an Album</legend>
-			<ul>
+			<legend>Select a song for demo play</legend>
+			<ul >
 				
 			</ul>
 		</div>
+</div>
+</div>
 
 
-	</form>
 
 	<script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
 	<script>
+
+//START Search for a artist using text
 
 		$("#search button").on("click", function( eventObject ) {
 			
@@ -58,6 +76,9 @@
 			$.ajax({
 				url: urlSpotifyArtists
 			})
+	
+	//Build artist select list
+	
 			.success( function (data) {
 				var artistsFound = data.artists.items;
 				var optionsHtml = ""
@@ -68,6 +89,9 @@
 				$("#artists select").html( optionsHtml );
 			});
 		});
+//END
+
+//START use select artist to find albums and build select list
 
 
 		 $("#artists select").on("change", function(eventObject) {
@@ -80,6 +104,9 @@
 			$.ajax({
 	 			url: urlSpotifyArtistsId
 			})
+	
+	//Build artist select list
+
 			.success( function (data) {
 				var albums = data.items;
 				var albumsHtml = ""
@@ -90,6 +117,12 @@
 
 				})
 		 	});
+
+//END
+
+//START use album id to find list of songs and build song links
+
+
 
 
  		$("#albums select").on("change", function(eventObject) {
@@ -102,18 +135,22 @@
 	 		$.ajax({
 	 			url: urlSpotifyAlbumsId
 			})
+	
+	//Build song links
+
 	 		.success( function (data) {
-	 			console.log(data)
-	// 			console.log(data.items)
-	// 			var albums = data.items;
-	// 			var albumsHtml = ""
-	// 			$.each(albums, function (itemPosition, itemContent){
-	// 				albumsHtml += '<option value="' + itemContent.id + '">' + itemContent.name + '</option>';
-	// 			});
-	// 		$("#albums select").html( albumsHtml );
+				var songs = data.items;
+				console.log(songs)
+	 			var songsHtml = ""
+	 			$.each(songs, function (itemPosition, itemContent){
+	 				songsHtml += '<li><a target="_blank" href="' + itemContent.preview_url + '">' + itemContent.name + '</a></li>';
+				});
+	 		$("#songs ul").html( songsHtml );
 
 	 			})
 	 	 	});
+
+//END
 
 	</script>
 </body>
